@@ -9,16 +9,27 @@ let angle = 0;
 function setup() {
     createCanvas(width, height);
     angle = PI/4;
-    slider = createSlider(0, PI, PI/4, 0.01);
-    slider.position(550, 700)
+    textAlign(CENTER, CENTER);
+    drawTrees();
 }
 
-function draw() {
+function keyPressed() {
+    if (key === ' ') {
+        drawTrees();
+    }
+}
+
+
+function drawTrees() {
     background(30);
     stroke(255);
     strokeWeight(10);
     line(0, 605, width, 605);
-    angle = slider.value();
+
+    strokeWeight(1);
+    textSize(32);
+    fill(255);
+    text('Press SPACE Bar', width / 2, 700);
 
     // let levels = 10;
     // let initLength = 200;
@@ -58,7 +69,9 @@ function draw() {
     stroke(255);
     translate(75, 0);
     branch(25, 8, 4);
-    
+}
+
+function draw() {
 }
 
 function branch(len, levels, weight) {
@@ -68,11 +81,15 @@ function branch(len, levels, weight) {
     }
     strokeWeight(weight);
     line(0, 0, 0, -len);
+    push();
     translate(0, -len);
-    rotate(angle);
+    push();
+    rotate(random(0, angle));
     branch(len * scl, levels, weight * weightscl);
-    rotate(- angle * 2);
+    pop();
+    push();
+    rotate(random(-angle, 0));
     branch(len * scl, levels, weight * weightscl);
-    rotate (angle);
-    translate(0, len);
+    pop();
+    pop();
 }
